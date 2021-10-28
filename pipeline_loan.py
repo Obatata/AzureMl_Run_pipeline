@@ -22,16 +22,19 @@ ws = Workspace.from_config("./config")
 """
 Create custom envirnmont
 """
-# create the envirnmont
+# Create the environment
 pipeline_env = Environment(name="pipeline_env")
 
-# creae the dependencies object
-conda_depends = CondaDependencies.create(conda_packages=(["sklearn", "pandas", "azureml-sdk"]))
-pipeline_env.python.conda_dependencies = conda_depends
-
+# install packages
+#-----------------
+conda_packages = CondaDependencies()
+conda_packages.add_pip_package("azureml-sdk")
+conda_packages.add_pip_package("pandas")
+conda_packages.add_pip_package("sklearn")
+# include package in the pipline_env
+pipeline_env.python.conda_dependencies = conda_packages
 # set user_manager_dependencies to True
-pipeline_env.python.user_managed_dependencies = True
-
+pipeline_env.python.user_managed_dependencies = False
 # register the envirnmont
 pipeline_env.register(ws)
 """
@@ -42,12 +45,12 @@ pipeline_env.register(ws)
 create compute cluster for pipeline
 """
 # give name of the cluster
-cluster_name = "pipeline-cluster"
+cluster_name = "clusteralpha"
 
 # set the configuration of th cluster
 compute_config = AmlCompute.provisioning_configuration(
-                                                       vm_size='STANDARD_D11_V2',
-                                                       max_nodes=2
+                                                        vm_size='STANDARD_D11_V2',
+                                                        max_nodes=2
                                                       )
 # biuld comute cluster
 compute_cluster = ComputeTarget.create(ws, cluster_name, compute_config)
@@ -65,6 +68,7 @@ Create Run Configuration for the steps
 run_config = RunConfiguration()
 run_config.target = compute_cluster
 run_config.environment = pipeline_env
+
 """
 ###############################################################################
 """

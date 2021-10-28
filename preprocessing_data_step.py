@@ -1,7 +1,8 @@
+from sklearn.preprocessing import MinMaxScaler
 from azureml.core import Run
 import pandas as pd
 from argparse import ArgumentParser as AP
-from sklearn.preprocessing import MinMaxScaler
+
 
 
 """
@@ -27,11 +28,13 @@ ws = new_run.experiment.workspace
 Preprocessing data 
 """
 # read input data
-df = new_run.input_dataset["raw_data"].to_pandas_dataframe 
+df = new_run.input_datasets['raw_data'].to_pandas_dataframe()
 #df = pd.read_csv("./data/Loan+Approval+Prediction.csv")
 # remove ID coolumn (dont need Id column for build pipeline)
-data_preproc = df.drop(["ID"], axis=1)
 
+
+#data_preproc = df.drop(["ID"], axis=1)
+data_preproc = df
 #get columns of dataframe
 all_cols = data_preproc.columns
 

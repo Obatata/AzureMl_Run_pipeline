@@ -1,16 +1,31 @@
-# This is a sample Python script.
-
-# Press Maj+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+# Import the Workspace and Datastore
+from azureml.core import Workspace, Experiment, ScriptRunConfig, Environment
+from azureml.core.environment import CondaDependencies
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+"""
+Access the workspace, Datastore and Datasets
+"""
+ws = Workspace.from_config("./config")
+"""
+###############################################################################
+"""
+
+env_restored = ""
+name_restored = ""
+
+for name,env in ws.environments.items():
+    if name == "pipeline_env":
+        name_restored = name
+
+        env_restored = env.version
+    print('test', env.get_image_details(ws))
+print("Name {} \t version {}".format(name,env.version))
+
+
+restored_environment = Environment.get(workspace=ws,name=str(name_restored), version=str(env_restored))
+print()
+print("restored enviroment : ")
+print("---------------------")
+print(restored_environment)
