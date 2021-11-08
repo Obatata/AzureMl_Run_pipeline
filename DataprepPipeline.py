@@ -21,6 +21,10 @@ import pandas as pd
 
 # Read the input dataset
 df = new_run.input_datasets['raw_data'].to_pandas_dataframe()
+print("---------------------------------")
+print("df is as follow : ")
+print(df.head())
+print("---------------------------------")
 
 # Select relevant columns from the dataset
 #dataPrep = df.drop(["ID"], axis=1)
@@ -73,6 +77,8 @@ path = os.path.join(args.datafolder, 'defaults_prep.csv')
 # Write the data preparation output as csv file
 dataPrep.to_csv(path, index=False)
 
+dataPrep.to_csv("./outputs/dataPrep.csv",
+                      index=False)
 
 # Log null values
 for column in all_cols:

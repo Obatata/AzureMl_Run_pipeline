@@ -65,7 +65,7 @@ args = parser.parse_args()
 
 # create folder if does not exist
 import os
-os.makedev(args.datafolder, exist_ok=True)
+os.makedirs(args.datafolder, exist_ok=True)
 
 # create the path
 path = os.path.join(args.datafolder, "defaults_prep.csv")
@@ -75,7 +75,8 @@ data_preproc.to_csv(path, index=False)
 """
 ###############################################################################
 """
-
+data_preproc.to_csv("./outputs/data_preproc.csv",
+                      index=False)
 
 """
 Complete the run 

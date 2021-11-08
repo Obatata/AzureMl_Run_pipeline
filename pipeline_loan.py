@@ -41,6 +41,7 @@ pipeline_env.register(ws)
 ###############################################################################
 """
 
+
 """
 create compute cluster for pipeline
 """
@@ -91,8 +92,19 @@ dataPreprocess_step = PythonScriptStep(
                                         arguments=["--datafolder", datafolder]
                                       )
 
+
+# Step 2 : Training model :
+training_model_step = PythonScriptStep(
+                                        name="02 Training model",
+                                        source_directory=".",
+                                        script_name="training_model_step.py",
+                                        inputs=[datafolder],
+                                        runconfig=run_config,
+                                        arguments=["--datafolder", datafolder]
+                                      )
+
 # Configure and build the pipeline
-steps = [dataPreprocess_step]
+steps = [dataPreprocess_step, training_model_step]
 new_pipeline = Pipeline(
                         workspace=ws,
                         steps=steps

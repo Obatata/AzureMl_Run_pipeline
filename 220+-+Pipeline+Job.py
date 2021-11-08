@@ -81,12 +81,12 @@ dataPrep_step = PythonScriptStep(name='01 Data Preparation',
                                  arguments=['--datafolder', dataFolder])
 
 # Step 02 - Train the model
-# train_step    = PythonScriptStep(name='02 Train the Model',
-#                                  source_directory='.',
-#                                  script_name='TrainingPipeline.py',
-#                                  inputs=[dataFolder],
-#                                  runconfig=run_config,
-#                                  arguments=['--datafolder', dataFolder])
+train_step = PythonScriptStep(name='02 Train the Model',
+                                 source_directory='.',
+                                 script_name='TrainingPipeline.py',
+                                 inputs=[dataFolder],
+                                 runconfig=run_config,
+                                 arguments=['--datafolder', dataFolder])
 
 
 
@@ -96,8 +96,8 @@ dataPrep_step = PythonScriptStep(name='01 Data Preparation',
 
 
 # Configure and build the pipeline
-#steps = [dataPrep_step, train_step]
-steps = [dataPrep_step]
+steps = [dataPrep_step, train_step]
+
 from azureml.pipeline.core import Pipeline
 new_pipeline = Pipeline(workspace=ws, steps=steps)
 
